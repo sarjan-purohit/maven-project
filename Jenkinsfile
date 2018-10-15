@@ -1,20 +1,14 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Init') {
-            steps {
-                echo 'Init..'
+pipeline{
+    stages{
+        stage('Build'){
+            setps{
+                sh 'mvn clean package'
             }
-        }
-        stage('Build') {
-            steps {
-                echo 'Building..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
+            post{
+                success{
+                    echo "Now Archiving..."
+                    archivArtifacts artifacts: "**/*.war"
+                }
             }
         }
     }
